@@ -2,6 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import './plugins/element.js'
+
+// 导入全局样式表
+import './assets/css/global.css'
+
+// import axios from 'axios'
+// // 配置请求根路径
+// axios.defaults.baseURL = 'http://vue-shop-api-t.itheima.net/api/private/v1/'
+// Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 
