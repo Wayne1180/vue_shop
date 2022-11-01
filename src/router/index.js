@@ -24,7 +24,14 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: () => import('../views/Home.vue')
+    component: () => import('../views/Home.vue'),
+    redirect: '/welcome',
+    children: [
+      {
+        path: '/welcome',
+        component: () => import('../views/Welcome.vue')
+      },
+    ]
   }
 ]
 
@@ -37,7 +44,7 @@ router.beforeEach((to, from, next) => {
   // 如果用户访问的登录页，直接放行
   if (to.path === '/login') return next()
   // 从sessionStorage中获取到保存的token值
-  const tokenStr = window.sessionStorage.getItem('token')
+  const tokenStr = window.localStorage.getItem('token')
   // 没有token，强制跳转到登录页
   if (!tokenStr) return next('/login')
   next()

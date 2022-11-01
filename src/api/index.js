@@ -14,3 +14,10 @@ export const loginAPI = ({ username, password }) => {
         }
     })
 }
+
+// 获取所有的菜单
+export const menusAPI = () => {
+    return request({
+        url: '/menus'
+    })
+}
