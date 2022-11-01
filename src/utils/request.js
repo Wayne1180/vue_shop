@@ -9,5 +9,12 @@ const myAxios = axios.create({
     baseURL
 })
 
+myAxios.interceptors.request.use(config => {
+    // console.log(config);
+    config.headers.Authorization = window.localStorage.getItem('token')
+    // 在最后必须 return config
+    return config
+})
+
 // 导出自定义axios方法，供外面调用传参发请求
 export default myAxios
