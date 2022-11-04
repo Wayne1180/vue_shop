@@ -22,6 +22,7 @@
           :collapse="collapse"
           :collapse-transition="false"
           router
+          :default-active="activePath"
         >
           <!-- 一级菜单 -->
           <el-submenu
@@ -41,6 +42,7 @@
               :index="'/' + child.path"
               v-for="child in item.children"
               :key="child.id"
+              @click="saveNavState('/' + child.path)"
             >
               <template slot="title">
                 <!-- 图表 -->
@@ -76,14 +78,17 @@ export default {
         102: "iconfont icon-danju",
         145: "iconfont icon-baobiao",
       },
+      // 被激活的链接地址
+      activePath: "",
     };
   },
   created() {
     this.getMenuList();
+    this.activePath = window.sessionStorage.getItem("activePath");
   },
   methods: {
     logout() {
-      window.localStorage.removeItem("token");
+      window.sessionStorage.removeItem("token");
       this.$router.replace("/login");
     },
     async getMenuList() {
@@ -97,6 +102,11 @@ export default {
     // 点击按钮切换菜单的折叠与展开
     toggleCollapse() {
       this.collapse = !this.collapse;
+    },
+    // 保存链接的激活状态
+    saveNavState(activePath) {
+      window.sessionStorage.setItem("activePath", activePath);
+      this.activePath = activePath;
     },
   },
 };
@@ -138,7 +148,7 @@ export default {
   margin-right: 10px;
 }
 .toggle-button {
-  background-color: #485563;
+  background-color: #29323c;
   font-size: 10px;
   line-height: 24px;
   color: #fff;

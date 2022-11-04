@@ -31,6 +31,10 @@ const routes = [
         path: '/welcome',
         component: () => import('../views/Welcome.vue')
       },
+      {
+        path: '/users',
+        component: () => import('../views/Pages/User.vue')
+      }
     ]
   }
 ]
@@ -44,7 +48,7 @@ router.beforeEach((to, from, next) => {
   // 如果用户访问的登录页，直接放行
   if (to.path === '/login') return next()
   // 从sessionStorage中获取到保存的token值
-  const tokenStr = window.localStorage.getItem('token')
+  const tokenStr = window.sessionStorage.getItem('token')
   // 没有token，强制跳转到登录页
   if (!tokenStr) return next('/login')
   next()

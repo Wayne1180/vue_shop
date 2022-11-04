@@ -21,3 +21,27 @@ export const menusAPI = () => {
         url: '/menus'
     })
 }
+
+// 获取用户列表数据
+export const userListAPI = ({ query, pagenum, pagesize }) => {
+    return request({
+        url: '/users',
+        params: {
+            query,
+            pagenum,
+            pagesize
+        }
+    })
+}
+
+// 修改用户状态
+export const userEditAPI = ({ id, mg_state }) => {
+    return request({
+        url: `/users/${id}/state/${mg_state}`,
+        method: 'PUT',
+        params: {
+            id,
+            mg_state
+        }
+    })
+}

@@ -101,7 +101,7 @@ export default {
             1.2 token只应在当前网站打开期间生效，所以将token保存在sessionStorage中
           2. 通过编程式导航跳转到后台主页，路由地址是 /home
           */
-          window.localStorage.setItem("token", res.data.token);
+          window.sessionStorage.setItem("token", res.data.token);
           this.$router.replace("/home");
         }
       });

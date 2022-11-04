@@ -12,7 +12,7 @@ import './assets/css/global.css'
 
 // import axios from 'axios'
 // // 配置请求根路径
-// axios.defaults.baseURL = 'http://vue-shop-api-t.itheima.net/api/private/v1/'
+// axios.defaults.baseURL = 'http://vue-shop-api-t.itheima.net/api/private/v1'
 // Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
