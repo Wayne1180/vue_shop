@@ -22,6 +22,10 @@ import { Switch } from 'element-ui'
 import { Tooltip } from 'element-ui'
 // 导入分页器
 import { Pagination } from 'element-ui'
+// 导入对话框
+import { Dialog } from 'element-ui'
+// 导入消息提示框
+import { MessageBox } from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -44,5 +48,8 @@ Vue.use(TableColumn)
 Vue.use(Switch)
 Vue.use(Tooltip)
 Vue.use(Pagination)
+Vue.use(Dialog)
+
 
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm

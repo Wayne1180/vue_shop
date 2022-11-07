@@ -2,6 +2,7 @@
   <el-container class="home-container">
     <!-- 头部区域 -->
     <el-header>
+      <!-- 头部左侧logo -->
       <div>
         <img src="../assets/logow.png" alt="" />
         <span>电商后台管理系统</span>
@@ -69,7 +70,7 @@ export default {
     return {
       // 左侧菜单数据
       menulist: [],
-      // 菜单的折叠与展开
+      // 菜单的折叠与展开（默认展开，宽度200）
       collapse: false,
       iconsObj: {
         125: "iconfont icon-user",
@@ -87,8 +88,10 @@ export default {
     this.activePath = window.sessionStorage.getItem("activePath");
   },
   methods: {
+    // 退出登录的回调
     logout() {
-      window.sessionStorage.removeItem("token");
+      // 清除token，跳回到登陆页面
+      window.sessionStorage.clear();
       this.$router.replace("/login");
     },
     async getMenuList() {
@@ -103,7 +106,7 @@ export default {
     toggleCollapse() {
       this.collapse = !this.collapse;
     },
-    // 保存链接的激活状态
+    // 保存链接的激活状态（高亮）
     saveNavState(activePath) {
       window.sessionStorage.setItem("activePath", activePath);
       this.activePath = activePath;

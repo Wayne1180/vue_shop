@@ -29,9 +29,7 @@
         <!-- 按钮区域 -->
         <el-form-item class="btns">
           <el-button type="primary" @click="login">登录</el-button>
-          <el-button type="info" @click="resetForm('loginFormRef')"
-            >重置</el-button
-          >
+          <el-button type="info" @click="resetForm">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -74,8 +72,8 @@ export default {
   },
   methods: {
     // 点击重置按钮，重置登录表单
-    resetForm(loginFormRef) {
-      this.$refs[loginFormRef].resetFields();
+    resetForm() {
+      this.$refs.loginFormRef.resetFields();
     },
     // 登录
     login() {
