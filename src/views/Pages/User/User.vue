@@ -72,6 +72,7 @@
                 type="warning"
                 icon="el-icon-setting"
                 size="small"
+                @click="editRole(scope.row)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -157,6 +158,41 @@
         <el-button type="primary" @click="saveUserInfo">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!-- 分配角色的对话框 -->
+    <el-dialog
+      title="分配角色"
+      :visible.sync="allotRoleDialog"
+      width="40%"
+      @close="clearOption"
+    >
+      <!-- 描述列表 -->
+      <el-descriptions :column="1">
+        <el-descriptions-item label="当前的用户">{{
+          allotInfo.username
+        }}</el-descriptions-item>
+        <el-descriptions-item label="当前的角色">{{
+          allotInfo.role_name
+        }}</el-descriptions-item>
+      </el-descriptions>
+      <!-- 选择器 -->
+      <!-- {{ allotSelect }} -->
+      <template>
+        <el-select v-model="value" placeholder="请选择">
+          <el-option
+            v-for="item in allotSelect"
+            :key="item.id"
+            :label="item.roleName"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
+      </template>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="allotRoleDialog = false">取 消</el-button>
+        <el-button type="primary" @click="submitRole">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -168,7 +204,9 @@ import {
   editUserAPI,
   saveUserAPI,
   deleteUserAPI,
-} from "../../api/index";
+  allotRoleAPI,
+  roleRightAPI,
+} from "@/api/index";
 export default {
   data() {
     // 验证手机号的规则
@@ -238,12 +276,13 @@ export default {
       /* 修改用户信息对话框相关 */
       // 控制修改用户信息对话框
       editVisible: false,
-      editForm: {
-        id: "",
-        username: "",
-        email: "",
-        mobile: "",
-      },
+      // editForm: {
+      //   id: "",
+      //   username: "",
+      //   email: "",
+      //   mobile: "",
+      // },
+      editForm: {},
       editRules: {
         email: [
           { required: true, message: "请输入邮箱地址", trigger: "blur" },
@@ -258,6 +297,15 @@ export default {
           { validator: checkPhone, trigger: "blur" },
         ],
       },
+
+      /* 分配角色的对话框 */
+      allotRoleDialog: false,
+      // 分配角色对话框
+      allotInfo: {},
+      // 分配角色选择器数据
+      allotSelect: [],
+      value: "",
+      rowId: "",
     };
   },
   created() {
@@ -323,10 +371,11 @@ export default {
     async showEditDialog(scope) {
       const { id } = scope.row;
       const { data: res } = await editUserAPI(id);
-      this.editForm.id = res.data.id;
-      this.editForm.username = res.data.username;
-      this.editForm.email = res.data.email;
-      this.editForm.mobile = res.data.mobile;
+      // this.editForm.id = res.data.id;
+      // this.editForm.username = res.data.username;
+      // this.editForm.email = res.data.email;
+      // this.editForm.mobile = res.data.mobile;
+      this.editForm = res.data;
       this.editVisible = true;
     },
     editDialogClose() {
@@ -376,6 +425,38 @@ export default {
             message: "已取消删除",
           });
         });
+    },
+    // 分配角色相关
+    async editRole(row) {
+      this.allotRoleDialog = true;
+      // console.log(row);
+      this.allotInfo = row;
+      this.rowId = row.id;
+      const { data: res } = await allotRoleAPI();
+      this.allotSelect = res.data;
+      // console.log(this.allotSelect);
+    },
+    // 提交修改后的角色
+    async submitRole() {
+      // console.log(this.value);
+      // 发送请求
+      if (!this.value) {
+        return this.$message.error("请选择要分配的角色");
+      } else {
+        const { data: res } = await roleRightAPI(this.rowId, this.value);
+        // console.log(res);
+        if (res.meta.status !== 200) {
+          this.$message.error("更新失败");
+        } else {
+          this.$message.success("更新成功");
+          this.allotRoleDialog = false;
+          this.value = "";
+          this.getUserList();
+        }
+      }
+    },
+    clearOption() {
+      this.value = "";
     },
   },
 };

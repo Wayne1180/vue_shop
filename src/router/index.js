@@ -33,7 +33,15 @@ const routes = [
       },
       {
         path: '/users',
-        component: () => import('../views/Pages/User.vue')
+        component: () => import('../views/Pages/User/User.vue')
+      },
+      {
+        path: '/roles',
+        component: () => import('../views/Pages/Power/Roles.vue')
+      },
+      {
+        path: '/rights',
+        component: () => import('../views/Pages/Power/Rights.vue')
       }
     ]
   }

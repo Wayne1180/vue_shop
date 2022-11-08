@@ -26,6 +26,14 @@ import { Pagination } from 'element-ui'
 import { Dialog } from 'element-ui'
 // 导入消息提示框
 import { MessageBox } from 'element-ui'
+// 导入标签
+import { Tag } from 'element-ui'
+// 导入树形控件
+import { Tree } from 'element-ui'
+// 导入描述列表
+import { Descriptions, DescriptionsItem } from 'element-ui'
+// 导入选择器
+import { Select, Option } from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -49,6 +57,12 @@ Vue.use(Switch)
 Vue.use(Tooltip)
 Vue.use(Pagination)
 Vue.use(Dialog)
+Vue.use(Tag)
+Vue.use(Tree)
+Vue.use(Descriptions)
+Vue.use(DescriptionsItem)
+Vue.use(Select)
+Vue.use(Option)
 
 
 Vue.prototype.$message = Message

@@ -89,3 +89,105 @@ export const deleteUserAPI = (id) => {
         method: 'DELETE',
     })
 }
+
+// 获取权限列表
+export const rightsListAPI = () => {
+    return request({
+        url: '/rights/list',
+        method: 'GET'
+    })
+}
+
+// 获取角色列表
+export const rolesListAPI = () => {
+    return request({
+        url: '/roles',
+        method: 'GET'
+    })
+}
+
+// 删除角色-权限点
+export const deleteRightAPI = (roleId, perId) => {
+    return request({
+        url: `/roles/${roleId}/rights/${perId}`,
+        method: 'DELETE'
+    })
+}
+
+// 添加角色
+export const addRoleAPI = ({ roleName, roleDesc }) => {
+    return request({
+        url: '/roles',
+        method: 'POST',
+        data: {
+            roleName,
+            roleDesc
+        }
+    })
+}
+
+// 修改角色信息（先获取）
+export const roleDataAPI = (id) => {
+    return request({
+        url: `/roles/${id}`,
+        method: 'GET'
+    })
+}
+
+// 修改角色信息（提交）
+export const roleEditAPI = (id, { roleName, roleDesc }) => {
+    return request({
+        url: `/roles/${id}`,
+        method: 'PUT',
+        data: {
+            roleName,
+            roleDesc
+        }
+    })
+}
+
+// 删除角色信息
+export const roleDeleteAPI = (id) => {
+    return request({
+        url: `/roles/${id}`,
+        method: 'DELETE'
+    })
+}
+
+// 角色权限分配
+export const rightsTreeAPI = () => {
+    return request({
+        url: '/rights/tree',
+        method: 'GET'
+    })
+}
+
+// 角色权限更新
+export const allotRightsAPI = (id, rids) => {
+    return request({
+        url: `/roles/${id}/rights`,
+        method: 'POST',
+        data: {
+            rids
+        }
+    })
+}
+
+// 用户页面，分配角色
+export const allotRoleAPI = () => {
+    return request({
+        url: '/roles',
+        method: 'GET'
+    })
+}
+
+// 分配-用户权限
+export const roleRightAPI = (id, rid) => {
+    return request({
+        url: `/users/${id}/role`,
+        method: 'PUT',
+        data: {
+            rid
+        }
+    })
+}
