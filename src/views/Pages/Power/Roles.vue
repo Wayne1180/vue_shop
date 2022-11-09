@@ -58,7 +58,7 @@
                     <!-- 渲染三级权限，此时不需要换行 -->
                     <el-tag
                       type="warning"
-                      v-for="(item3, index) in item2.children"
+                      v-for="item3 in item2.children"
                       :key="item3.id"
                       closable
                       @close="removeRightById(scope, item3)"
@@ -266,7 +266,7 @@ export default {
       // console.log(this.rolesList);
     },
     // 根据id删除对应的权限
-    removeRightById(scope, item3) {
+    removeRightById(scope, item) {
       // 弹框提示用户是否要删除
       this.$confirm("此操作将永久删除该权限, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -274,20 +274,24 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          // console.log(scope.row.id, item3.id);
           const { id: roleId } = scope.row;
-          const { id: perId } = item3;
+          const { id: perId } = item;
+          // console.log(roleId, perId);
           const { data: res } = await deleteRightAPI(roleId, perId);
+          // console.log(res);
           if (res.meta.status !== 200) {
             return this.$message.error("删除权限失败！");
+          } else {
+            // this.getRolesList();
+            // 防止重新加载
+            scope.row.children = res.data;
+            // console.log(this.rolesList);
+            // 此时的rolesList的子项和发请求返回回来的一级权限相同
+            this.$message({
+              type: "success",
+              message: "删除成功!",
+            });
           }
-          // this.getRolesList();
-          // 防止重新加载
-          role.children = res.data;
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
         })
         .catch(() => {
           this.$message({

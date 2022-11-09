@@ -412,7 +412,7 @@ export default {
       })
         .then(async () => {
           const { data: res } = await deleteUserAPI(id);
-          if (res.meta.status != 200) {
+          if (res.meta.status !== 200) {
             this.$message.error("删除失败");
           } else {
             this.$message.success("删除成功");
