@@ -34,6 +34,8 @@ import { Tree } from 'element-ui'
 import { Descriptions, DescriptionsItem } from 'element-ui'
 // 导入选择器
 import { Select, Option } from 'element-ui'
+// 导入级联选择器
+import { Cascader } from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -63,6 +65,7 @@ Vue.use(Descriptions)
 Vue.use(DescriptionsItem)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Cascader)
 
 
 Vue.prototype.$message = Message

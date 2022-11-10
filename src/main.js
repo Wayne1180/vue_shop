@@ -10,12 +10,17 @@ import './assets/fonts/iconfont.css'
 // 导入全局样式表
 import './assets/css/global.css'
 
-// import axios from 'axios'
+/* // import axios from 'axios'
 // // 配置请求根路径
 // axios.defaults.baseURL = 'http://vue-shop-api-t.itheima.net/api/private/v1'
-// Vue.prototype.$http = axios
+// Vue.prototype.$http = axios */
+
+// 导入树状图
+import TreeTable from 'vue-table-with-tree-grid'
 
 Vue.config.productionTip = false
+
+Vue.component('tree-table', TreeTable)
 
 new Vue({
   router,

@@ -191,3 +191,48 @@ export const roleRightAPI = (id, rid) => {
         }
     })
 }
+
+// 商品分类管理（用于商品分类页数据的铺设）
+export const cateListAPI = ({ type, pagenum, pagesize }) => {
+    return request({
+        url: 'categories',
+        method: 'GET',
+        params: {
+            type,
+            pagenum,
+            pagesize
+        }
+    })
+}
+
+// 获取两级分类（点击添加分类按钮，展开的对话框渲染使用）
+export const doubleCateAPI = (type) => {
+    return request({
+        url: 'categories',
+        method: 'GET',
+        params: {
+            type
+        }
+    })
+}
+
+/* // 根据id查询商品分类
+export const getCateByIdAPI = (id) => {
+    return request({
+        url: `/categories/${id}`,
+        method: 'GET'
+    })
+} */
+
+// 添加商品分类
+export const addCateAPI = ({ cat_pid, cat_name, cat_level }) => {
+    return request({
+        url: '/categories',
+        method: 'POST',
+        data: {
+            cat_pid,
+            cat_name,
+            cat_level
+        }
+    })
+}
