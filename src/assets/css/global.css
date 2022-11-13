@@ -24,4 +24,13 @@ body,
 
 .el-pagination {
     margin-top: 15px;
+    font-size: 13px;
+}
+
+.el-cascader-panel {
+    height: 300px;
+}
+
+.el-alert {
+    margin-bottom: 10px;
 }

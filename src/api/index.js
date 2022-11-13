@@ -216,14 +216,6 @@ export const doubleCateAPI = (type) => {
     })
 }
 
-/* // 根据id查询商品分类
-export const getCateByIdAPI = (id) => {
-    return request({
-        url: `/categories/${id}`,
-        method: 'GET'
-    })
-} */
-
 // 添加商品分类
 export const addCateAPI = ({ cat_pid, cat_name, cat_level }) => {
     return request({
@@ -234,5 +226,100 @@ export const addCateAPI = ({ cat_pid, cat_name, cat_level }) => {
             cat_name,
             cat_level
         }
+    })
+}
+
+// 根据id查询商品分类
+export const getCateByIdAPI = (id) => {
+    return request({
+        url: `/categories/${id}`,
+        method: 'GET'
+    })
+}
+
+// 编辑提交分类
+export const submitCateAPI = (id, cat_name) => {
+    return request({
+        url: `/categories/${id}`,
+        method: 'PUT',
+        data: {
+            cat_name
+        }
+    })
+}
+
+// 删除分类
+export const deleteCateAPI = (id) => {
+    return request({
+        url: `/categories/${id}`,
+        method: 'DELETE'
+    })
+}
+
+// 获取所有商品分类
+export const getAllCateAPI = (type) => {
+    return request({
+        url: '/categories',
+        method: 'GET',
+        params: {
+            type
+        }
+    })
+}
+
+// 获取参数列表
+export const getAttributesAPI = (id, sel) => {
+    return request({
+        url: `/categories/${id}/attributes`,
+        method: 'GET',
+        params: {
+            sel
+        }
+    })
+}
+
+// 添加动态参数或者静态属性
+export const addAttrAPI = (id, attr_name, attr_sel, attr_vals) => {
+    return request({
+        url: `/categories/${id}/attributes`,
+        method: 'POST',
+        data: {
+            attr_name,
+            attr_sel,
+            attr_vals
+        }
+    })
+}
+
+// 根据ID查询参数
+export const searchAttrAPI = (id, attrId, attr_sel, attr_vals) => {
+    return request({
+        url: `/categories/${id}/attributes/${attrId}`,
+        method: 'GET',
+        params: {
+            attr_sel,
+            attr_vals
+        }
+    })
+}
+
+// 编辑提交参数
+export const putAttrAPI = (id, attrId, attr_name, attr_sel, attr_vals) => {
+    return request({
+        url: `/categories/${id}/attributes/${attrId}`,
+        method: 'PUT',
+        data: {
+            attr_name,
+            attr_sel,
+            attr_vals
+        }
+    })
+}
+
+// 删除参数
+export const deleteAttrAPI = (id, attrId) => {
+    return request({
+        url: `/categories/${id}/attributes/${attrId}`,
+        method: 'DELETE'
     })
 }

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Button } from 'element-ui'
+import { Button, TabPane } from 'element-ui'
 import { Form, FormItem } from 'element-ui'
 import { Input } from 'element-ui'
 // 导入弹框提示组件
@@ -36,6 +36,10 @@ import { Descriptions, DescriptionsItem } from 'element-ui'
 import { Select, Option } from 'element-ui'
 // 导入级联选择器
 import { Cascader } from 'element-ui'
+// 导入警告
+import { Alert } from 'element-ui'
+// 导入标签页
+import { Tabs } from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -66,6 +70,9 @@ Vue.use(DescriptionsItem)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Cascader)
+Vue.use(Alert)
+Vue.use(Tabs)
+Vue.use(TabPane)
 
 
 Vue.prototype.$message = Message
