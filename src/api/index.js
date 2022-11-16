@@ -408,3 +408,11 @@ export const getKuaidiAPI = () => {
         method: 'GET'
     })
 }
+
+// 获取折线图
+export const getLineAPI = () => {
+    return request({
+        url: '/reports/type/1',
+        method: 'GET'
+    })
+}
