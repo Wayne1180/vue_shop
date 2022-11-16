@@ -34,3 +34,15 @@ body,
 .el-alert {
     margin-bottom: 10px;
 }
+
+.el-steps {
+    margin: 15px 0;
+}
+
+.el-steps {
+    margin-bottom: 25px;
+}
+
+.ql-editor {
+    min-height: 300px;
+}

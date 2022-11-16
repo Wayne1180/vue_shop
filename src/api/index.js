@@ -323,3 +323,66 @@ export const deleteAttrAPI = (id, attrId) => {
         method: 'DELETE'
     })
 }
+
+/* 商品管理相关的API */
+
+// 获取商品列表数据
+export const getGoodsInfoAPI = ({ query, pagenum, pagesize }) => {
+    return request({
+        url: '/goods',
+        method: 'GET',
+        params: {
+            query,
+            pagenum,
+            pagesize
+        }
+    })
+}
+
+// 根据ID查询商品
+export const getGoodsAPI = (id) => {
+    return request({
+        url: `/goods/${id}`,
+        method: 'GET'
+    })
+}
+
+// 编辑提交商品
+export const putGoodsAPI = (id, { goods_name, goods_price, goods_number, goods_weight }) => {
+    return request({
+        url: `/goods/${id}`,
+        method: 'PUT',
+        data: {
+            goods_name,
+            goods_price,
+            goods_number,
+            goods_weight
+        }
+    })
+}
+
+// 删除商品
+export const deleteGoodsAPI = (id) => {
+    return request({
+        url: `/goods/${id}`,
+        method: 'DELETE'
+    })
+}
+
+// 添加商品
+export const addGoodsAPI = ({ goods_name, goods_cat, goods_price, goods_number, goods_weight, goods_introduce, pics, attrs }) => {
+    return request({
+        url: '/goods',
+        method: 'POST',
+        data: {
+            goods_name,
+            goods_cat,
+            goods_price,
+            goods_number,
+            goods_weight,
+            goods_introduce,
+            pics,
+            attrs
+        }
+    })
+}

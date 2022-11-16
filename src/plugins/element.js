@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { Button, TabPane } from 'element-ui'
+import { Button, Step, TabPane } from 'element-ui'
 import { Form, FormItem } from 'element-ui'
 import { Input } from 'element-ui'
 // 导入弹框提示组件
@@ -40,6 +40,12 @@ import { Cascader } from 'element-ui'
 import { Alert } from 'element-ui'
 // 导入标签页
 import { Tabs } from 'element-ui'
+// 导入步骤条
+import { Steps } from 'element-ui'
+// 导入多选框
+import { CheckboxGroup, Checkbox } from 'element-ui'
+// 导入“上传”
+import { Upload } from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -73,6 +79,11 @@ Vue.use(Cascader)
 Vue.use(Alert)
 Vue.use(Tabs)
 Vue.use(TabPane)
+Vue.use(Steps)
+Vue.use(Step)
+Vue.use(CheckboxGroup)
+Vue.use(Checkbox)
+Vue.use(Upload)
 
 
 Vue.prototype.$message = Message

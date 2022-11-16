@@ -17,7 +17,7 @@
       <el-row>
         <el-col>
           <span class="demonstration">请选择商品分类：</span>
-          <!-- 联级选择器区域 -->
+          <!-- 级联选择器区域 -->
           <!-- v-model绑定的是选中的id options是绑定的数据 -->
           <el-cascader
             v-model="selectedKeys"
@@ -243,7 +243,7 @@ export default {
         expandTrigger: "hover",
       },
 
-      // tabs的激活样式
+      // 默认被选中的选项
       activeName: "many",
 
       // 分别设置两个tab的数据
@@ -311,16 +311,8 @@ export default {
       this.CateList = res.data;
       this.$message.success("获取商品分类成功");
     },
-    // 级联选择器调用， 发送请求，获得动态参数
-    selectChange() {
-      this.getParamsData();
-    },
-    // 切换tab的回调函数
-    tabChange() {
-      this.getParamsData();
-    },
 
-    // 获取参数的列表数据（级联选择器选中和切换tab时都要重新获取）
+    // 获取表格需要铺设的数据
     async getParamsData() {
       // 证明选中的不是三级分类
       if (this.selectedKeys.length !== 3) {
@@ -336,27 +328,109 @@ export default {
       );
       if (res.meta.status !== 200) {
         return this.$message.error("获取参数列表失败！");
-      }
-      // 输出res
-      // console.log(res.data);
-      res.data.forEach((item) => {
-        // 如果item.attr_vals为空数组，不处理的话会渲染出来一个空的tag
-        item.attr_vals = item.attr_vals ? item.attr_vals.split(" ") : [];
-        // 控制文本框的显示与隐藏
-        item.inputVisible = false;
-        // 文本框中输入的值
-        item.inputValue = "";
-      });
-
-      // 如果是many，则给many的表格数据赋值，否则是only
-      if (this.activeName === "many") {
-        this.manyTableData = res.data;
       } else {
-        this.onlyTableData = res.data;
+        // 如果是many，则给many的表格数据赋值，否则是only
+        if (this.activeName === "many") {
+          this.manyTableData = res.data;
+        } else {
+          this.onlyTableData = res.data;
+        }
+        // 此时获取到的是所有列的数据
+        res.data.forEach((item) => {
+          // 获取到的attr_vals是一个很长的字符，此时需要切割成一个数组，然后for循环渲染出来
+          // 此时每一项的数据都在自己身上（manyTableData中的每一项上），所以不用保存到data里，渲染的时候直接使用scope.row
+          // 如果item.attr_vals为空数组，不处理的话会渲染出来一个空的tag
+          item.attr_vals = item.attr_vals ? item.attr_vals.split(" ") : [];
+          // 先把每一项的文本框和输入的值都隐藏清空
+          // 控制文本框的显示与隐藏
+          item.inputVisible = false;
+          // 文本框中输入的值
+          item.inputValue = "";
+        });
       }
     },
 
-    // 添加属性的对话框
+    // 级联选择器中选中后的函数
+    selectChange() {
+      this.getParamsData();
+    },
+    // 切换tab的回调函数
+    tabChange() {
+      this.getParamsData();
+    },
+
+    // 编辑属性的回调
+    /* 
+      点击编辑属性，会先向服务器发送请求，获取此参数的名称，在input框中显示出来
+      需要携带的参数：选中的三级分类ID（此前已经保存在计算属性中，这一行的id，还有激活的tab名称）
+      获取到信息后，把数据绑定到input中，同时把编辑属性的弹框打开
+    */
+    async editAttrDialog(attr_id) {
+      const { data: res } = await searchAttrAPI(
+        this.cateId,
+        attr_id,
+        this.activeName
+      );
+      if (res.meta.status !== 200) {
+        this.$message.error(`获取${this.titleText}失败`);
+      }
+      // 获取到的data中，有此行的id，此行的参数名称（attr_name），此行的tag数据，还有三级分类id
+      this.editForm = res.data;
+      this.$message.success(`获取${this.titleText}成功`);
+      this.editDialogVisible = true;
+    },
+    // 点击按钮，提交修改参数信息
+    async editParams() {
+      this.$refs.editFormRef.validate(async (valid) => {
+        if (!valid) {
+          return;
+        }
+      });
+      const { data: res } = await putAttrAPI(
+        this.cateId,
+        this.editForm.attr_id,
+        this.editForm.attr_name,
+        this.activeName
+      );
+      if (res.meta.status !== 200) {
+        return this.$message.error("修改参数失败");
+      }
+      this.$message.success("修改参数成功");
+      // 获取最新的数据
+      this.getParamsData();
+      this.editDialogVisible = false;
+    },
+    // 编辑弹窗关闭的函数
+    editDialogClosed() {
+      this.$refs.editFormRef.resetFields();
+    },
+    // 删除按钮的函数（删除一大行参数）
+    removeParams(attr_id) {
+      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(async () => {
+          const { data: res } = await deleteAttrAPI(this.cateId, attr_id);
+          if (res.meta.status !== 200) {
+            this.$message.error("删除失败");
+          }
+          this.getParamsData();
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+        });
+    },
+
+    // 添加属性的对话框弹出
     addAttr() {
       this.addDialogVisible = true;
     },
@@ -385,63 +459,6 @@ export default {
       });
     },
 
-    // 编辑属性的回调
-    async editAttrDialog(attr_id) {
-      const { data: res } = await searchAttrAPI(
-        this.cateId,
-        attr_id,
-        this.activeName
-      );
-      this.editForm = res.data;
-      this.editDialogVisible = true;
-    },
-    // 重置表单
-    editDialogClosed() {
-      this.$refs.editFormRef.resetFields();
-    },
-    // 点击按钮，修改参数信息
-    async editParams() {
-      this.$refs.editFormRef.validate(async (valid) => {
-        if (!valid) {
-          return;
-        }
-      });
-      const { data: res } = await putAttrAPI(
-        this.cateId,
-        this.editForm.attr_id,
-        this.editForm.attr_name,
-        this.activeName
-      );
-      if (res.meta.status !== 200) {
-        return this.$message.error("修改参数失败");
-      }
-      this.$message.success("修改参数成功");
-      // 获取最新的数据
-      this.getParamsData();
-      this.editDialogVisible = false;
-    },
-    removeParams(attr_id) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(async () => {
-          const { data: res } = await deleteAttrAPI(this.cateId, attr_id);
-          console.log(res);
-          this.getParamsData();
-          this.$message({
-            type: "success",
-            message: "删除成功!",
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-        });
-    },
     // 文本框失去焦点，或摁下了enter都会触发
     handleInputConfirm(row) {
       if (row.inputValue.trim().length === 0) {
