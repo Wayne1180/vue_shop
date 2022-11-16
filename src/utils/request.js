@@ -1,7 +1,7 @@
 import axios from "axios";
 import router from '@/router'
 
-export const baseURL = 'http://127.0.0.1:8888/api/private/v1/'  // 接口和图片资源所在的服务器地址
+export const baseURL = 'http://vue-shop-api-t.itheima.net/api/private/v1/'  // 接口和图片资源所在的服务器地址
 
 // http://vue-shop-api-t.itheima.net/api/private/v1/
 //http://127.0.0.1:8888/api/private/v1/

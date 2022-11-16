@@ -386,3 +386,25 @@ export const addGoodsAPI = ({ goods_name, goods_cat, goods_price, goods_number, 
         }
     })
 }
+
+/* 订单管理 */
+// 订单数据列表
+export const getOrdersListAPI = ({ query, pagenum, pagesize }) => {
+    return request({
+        url: '/orders',
+        method: 'GET',
+        params: {
+            query,
+            pagenum,
+            pagesize
+        }
+    })
+}
+
+// 查看物流信息
+export const getKuaidiAPI = () => {
+    return request({
+        url: '/kuaidi/804909574412544580',
+        method: 'GET'
+    })
+}
